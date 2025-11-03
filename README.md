@@ -443,7 +443,7 @@ model = PPOGNN.load_from_checkpoint('checkpoints/ppo_gnn_best.pth')
 
 ## 📧 Contact & Support
 
-- **Primary Author:** Your Name (mejdiargoubi@yahoo.fr)
+- **Primary Author:** Majdi Argoubi (mejdiargoubi@yahoo.fr)
 - **Issues:** Please use [GitHub Issues](https://github.com/ARGOUBI25/PPO-GNN-Fuel-Delivery/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/ARGOUBI25/PPO-GNN-Fuel-Delivery/discussions)
 
