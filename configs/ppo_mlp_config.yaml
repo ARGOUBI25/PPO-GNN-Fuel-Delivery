@@ -1,0 +1,172 @@
+# ============================================================================
+# PPO-MLP Configuration (Ablation baseline)
+# MLP encoder without message-passing
+# Section 5.2: Ablation Study - PPO-MLP variant
+# ============================================================================
+
+# Experiment metadata
+experiment:
+  name: "ppo_mlp_fuel_delivery"
+  description: "PPO with MLP encoder (no message-passing)"
+  seed: 42
+  device: "cuda"
+  num_workers: 4
+
+# ----------------------------------------------------------------------------
+# PPO Policy Network
+# SAME as PPO-GNN
+# ----------------------------------------------------------------------------
+policy:
+  learning_rate: 3.0e-4
+  epsilon_clip: 0.2
+  entropy_coef: 0.01
+  architecture: [256, 128, 64]
+  activation: "relu"
+  output_activation: "softmax"
+  dropout: 0.0
+  weight_init: "xavier_uniform"
+
+# ----------------------------------------------------------------------------
+# Value Function
+# SAME as PPO-GNN
+# ----------------------------------------------------------------------------
+value:
+  learning_rate: 1.0e-3
+  gae_lambda: 0.95
+  architecture: [256, 128]
+  activation: "relu"
+  dropout: 0.0
+  weight_init: "xavier_uniform"
+
+# ----------------------------------------------------------------------------
+# MLP Encoder (Section 5.2)
+# Processes node features independently, then mean pooling
+# NO message-passing aggregation
+# ----------------------------------------------------------------------------
+encoder:
+  type: "mlp"
+  num_layers: 3
+  hidden_dims: [256, 128, 64]  # Section 5.2: "3 layers, [256, 128, 64]"
+  activation: "relu"
+  dropout: 0.0
+  normalization: "layer"  # Layer normalization
+  
+  # Node-wise processing (no neighborhood aggregation)
+  aggregation: "mean"  # Mean pooling across nodes
+  
+  # Input features per node
+  node_feature_dim: 32  # demand, time windows, location, etc.
+  
+  learning_rate: 1.0e-4  # Same as GNN
+
+# ----------------------------------------------------------------------------
+# Training Process
+# SAME as PPO-GNN
+# ----------------------------------------------------------------------------
+training:
+  discount_factor: 0.99
+  batch_size: 256
+  epochs_per_update: 10
+  max_episodes: 50000
+  episode_length: 200
+  early_stop_patience: 5000
+  gradient_clip: 0.5
+  lr_scheduler: "constant"
+  warmup_episodes: 1000
+
+# ----------------------------------------------------------------------------
+# Reward Function Weights
+# SAME as PPO-GNN
+# ----------------------------------------------------------------------------
+rewards:
+  lambda_cost: 1.0
+  lambda_dispersion: 0.5
+  lambda_delay: 0.8
+  lambda_unmet: 1.2
+  lambda_constraint: 2.0
+
+# ----------------------------------------------------------------------------
+# Validation
+# SAME as PPO-GNN
+# ----------------------------------------------------------------------------
+validation:
+  enabled: true
+  validation_frequency: 1000
+  validation_batch_size: 100
+  tier1_threshold: 0.05
+  tier2_threshold: 0.25
+  tier2_penalty_multiplier: 1.5
+  tier2_episodes: 1000
+  tier2_selective: true
+  tier3_penalty_multiplier: 10.0
+  tier3_episodes: 10000
+  tier3_reset_policy: true
+  tier3_preserve_encoder: true
+  tier3_augment_replay: true
+  quality_threshold: 0.05
+  quality_patience: 5
+  variance_threshold: 0.15
+  variance_action: "reduce_lr"
+  variance_lr_multiplier: 0.5
+
+# ----------------------------------------------------------------------------
+# Constraint Importance Weights
+# ----------------------------------------------------------------------------
+constraints:
+  capacity: 2.0
+  time_window: 1.5
+  demand: 1.8
+  sequencing: 1.0
+  station_limit: 1.2
+
+# ----------------------------------------------------------------------------
+# Logging & Checkpointing
+# ----------------------------------------------------------------------------
+logging:
+  log_dir: "runs/ppo_mlp/"
+  tensorboard: true
+  wandb: false
+  wandb_project: "ppo-gnn-fuel-delivery"
+  log_frequency: 100
+  log_rewards: true
+  log_losses: true
+  log_violations: true
+  log_optimality_gap: true
+  log_tier_activations: true
+
+checkpointing:
+  checkpoint_dir: "checkpoints/ppo_mlp/"
+  save_best: true
+  save_latest: true
+  save_frequency: 5000
+  keep_last_n: 3
+  metric: "validation_cost"
+
+# ----------------------------------------------------------------------------
+# Environment Configuration
+# ----------------------------------------------------------------------------
+environment:
+  network_size: 100
+  num_edges: 300
+  num_vehicles: 15
+  depot_location: [0.0, 0.0]
+  demand_mean_range: [100, 500]
+  demand_std_ratio: 0.2
+  confidence_level: 0.95
+  vehicle_capacity: 1000
+  vehicle_speed_loaded: 60.0
+  vehicle_speed_unloaded: 80.0
+  loading_time_per_unit: 0.1
+  unloading_time_per_unit: 0.15
+  time_window_width: 120
+  max_route_duration: 480
+  fuel_cost_per_km: 0.5
+  driver_cost_per_hour: 25.0
+  vehicle_fixed_cost: 50.0
+  penalty_unmet_demand: 10.0
+  penalty_violation: 100.0
+
+# ============================================================================
+# KEY DIFFERENCE: MLP processes nodes independently (no message-passing)
+# Captures non-linear features but not graph topology
+# ============================================================================
