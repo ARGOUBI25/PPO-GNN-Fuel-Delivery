@@ -169,7 +169,7 @@ Replace `cu116` with your CUDA version (`cu113`, `cu102`, or `cpu`).
 
 **A:** Yes! Download from releases:
 ```bash
-wget https://github.com/YourUsername/PPO-GNN-Fuel-Delivery/releases/download/v1.0/checkpoints.zip
+wget https://github.com/ARGOUBI25/PPO-GNN-Fuel-Delivery/releases/download/v1.0/checkpoints.zip
 unzip checkpoints.zip -d checkpoints/
 ```
 
@@ -742,10 +742,10 @@ See [LICENSE](../LICENSE) file for full terms.
 
 **A:**
 ```bibtex
-@article{yourname2025ppo_gnn,
+@article{Argoubi2025ppo_gnn,
   title={Constraint-Aware PPO-GNN with Closed-Loop Validation for Stochastic Fuel Delivery Optimization},
-  author={Your Name and Co-authors},
-  journal={Journal Name},
+  author={Majdi Argoubi},
+  journal={Coming soon},
   year={2025},
   volume={XX},
   pages={XXX-XXX},
@@ -794,9 +794,9 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
    - [REPRODUCTION.md](REPRODUCTION.md)
    - [API.md](API.md)
 
-2. **Search existing issues:** [GitHub Issues](https://github.com/YourUsername/PPO-GNN-Fuel-Delivery/issues)
+2. **Search existing issues:** [GitHub Issues](https://github.com/ARGOUBI25/PPO-GNN-Fuel-Delivery/issues)
 
-3. **Ask in discussions:** [GitHub Discussions](https://github.com/YourUsername/PPO-GNN-Fuel-Delivery/discussions)
+3. **Ask in discussions:** [GitHub Discussions](https://github.com/ARGOUBI25/PPO-GNN-Fuel-Delivery/discussions)
 
 4. **Contact authors:** See README for email addresses
 
@@ -809,10 +809,10 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
 
 ## 📚 Additional Resources
 
-- **Paper:** [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX)
+- **Paper:** Coming soon
 - **Supplementary Materials:** Available in repository
 - **Tutorial Videos:** Coming soon
-- **Blog Post:** Detailed explanation (link TBA)
+- **Blog Post:** ** Coming soon
 
 ---
 
