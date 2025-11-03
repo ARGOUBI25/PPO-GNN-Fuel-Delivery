@@ -1,0 +1,169 @@
+# ============================================================================
+# Classical PPO Configuration (Baseline without GNN)
+# Same hyperparameters as PPO-GNN but with flat feature encoding
+# Section 5.1.3: Classical DRL baseline
+# ============================================================================
+
+# Experiment metadata
+experiment:
+  name: "classical_ppo_fuel_delivery"
+  description: "PPO with flat features (no GNN)"
+  seed: 42
+  device: "cuda"
+  num_workers: 4
+
+# ----------------------------------------------------------------------------
+# PPO Policy Network (Actor)
+# SAME as PPO-GNN (Table 5.1)
+# ----------------------------------------------------------------------------
+policy:
+  learning_rate: 3.0e-4  # Same α_θ
+  epsilon_clip: 0.2
+  entropy_coef: 0.01
+  architecture: [256, 128, 64]
+  activation: "relu"
+  output_activation: "softmax"
+  dropout: 0.0
+  weight_init: "xavier_uniform"
+
+# ----------------------------------------------------------------------------
+# Value Function (Critic)
+# SAME as PPO-GNN
+# ----------------------------------------------------------------------------
+value:
+  learning_rate: 1.0e-3  # Same α_φ
+  gae_lambda: 0.95
+  architecture: [256, 128]
+  activation: "relu"
+  dropout: 0.0
+  weight_init: "xavier_uniform"
+
+# ----------------------------------------------------------------------------
+# Flat Feature Encoder (replaces GNN)
+# Section 5.1.3: "512-dimensional vector"
+# ----------------------------------------------------------------------------
+encoder:
+  type: "flat"  # No GNN, just concatenate features
+  input_dim: 512  # Flattened feature vector
+  
+  # Feature composition (Section 5.1.3):
+  # - Node attributes: demand, time windows, coordinates, capacity
+  # - Edge attributes: pairwise distances, travel times
+  # - Vehicle states: locations, capacities, elapsed time, fuel type
+  
+  # MLP architecture: [512, 256, 128]
+  architecture: [512, 256, 128]
+  activation: "relu"
+  dropout: 0.0
+  normalization: "batch"  # Batch normalization for stability
+
+# ----------------------------------------------------------------------------
+# Training Process
+# SAME as PPO-GNN for fair comparison
+# ----------------------------------------------------------------------------
+training:
+  discount_factor: 0.99
+  batch_size: 256
+  epochs_per_update: 10
+  max_episodes: 50000
+  episode_length: 200
+  early_stop_patience: 5000
+  gradient_clip: 0.5
+  lr_scheduler: "constant"
+  warmup_episodes: 1000
+
+# ----------------------------------------------------------------------------
+# Reward Function Weights
+# SAME as PPO-GNN (Section 5.1.3)
+# ----------------------------------------------------------------------------
+rewards:
+  lambda_cost: 1.0
+  lambda_dispersion: 0.5
+  lambda_delay: 0.8
+  lambda_unmet: 1.2
+  lambda_constraint: 2.0
+
+# ----------------------------------------------------------------------------
+# Validation (same mechanism as PPO-GNN)
+# ----------------------------------------------------------------------------
+validation:
+  enabled: true
+  validation_frequency: 1000
+  validation_batch_size: 100
+  tier1_threshold: 0.05
+  tier2_threshold: 0.25
+  tier2_penalty_multiplier: 1.5
+  tier2_episodes: 1000
+  tier2_selective: true
+  tier3_penalty_multiplier: 10.0
+  tier3_episodes: 10000
+  tier3_reset_policy: true
+  tier3_preserve_encoder: true  # Keep flat encoder
+  tier3_augment_replay: true
+  quality_threshold: 0.05
+  quality_patience: 5
+  variance_threshold: 0.15
+  variance_action: "reduce_lr"
+  variance_lr_multiplier: 0.5
+
+# ----------------------------------------------------------------------------
+# Constraint Importance Weights
+# ----------------------------------------------------------------------------
+constraints:
+  capacity: 2.0
+  time_window: 1.5
+  demand: 1.8
+  sequencing: 1.0
+  station_limit: 1.2
+
+# ----------------------------------------------------------------------------
+# Logging & Checkpointing
+# ----------------------------------------------------------------------------
+logging:
+  log_dir: "runs/classical_ppo/"
+  tensorboard: true
+  wandb: false
+  wandb_project: "ppo-gnn-fuel-delivery"
+  log_frequency: 100
+  log_rewards: true
+  log_losses: true
+  log_violations: true
+  log_optimality_gap: true
+  log_tier_activations: true
+
+checkpointing:
+  checkpoint_dir: "checkpoints/classical_ppo/"
+  save_best: true
+  save_latest: true
+  save_frequency: 5000
+  keep_last_n: 3
+  metric: "validation_cost"
+
+# ----------------------------------------------------------------------------
+# Environment Configuration (same as PPO-GNN)
+# ----------------------------------------------------------------------------
+environment:
+  network_size: 100
+  num_edges: 300
+  num_vehicles: 15
+  depot_location: [0.0, 0.0]
+  demand_mean_range: [100, 500]
+  demand_std_ratio: 0.2
+  confidence_level: 0.95
+  vehicle_capacity: 1000
+  vehicle_speed_loaded: 60.0
+  vehicle_speed_unloaded: 80.0
+  loading_time_per_unit: 0.1
+  unloading_time_per_unit: 0.15
+  time_window_width: 120
+  max_route_duration: 480
+  fuel_cost_per_km: 0.5
+  driver_cost_per_hour: 25.0
+  vehicle_fixed_cost: 50.0
+  penalty_unmet_demand: 10.0
+  penalty_violation: 100.0
+
+# ============================================================================
+# KEY DIFFERENCE: Flat feature encoding (512-dim) instead of GNN
+# All other hyperparameters identical for fair comparison
+# ============================================================================
