@@ -1,1 +1,176 @@
+# ============================================================================
+# PPO-GNN Configuration
+# Complete hyperparameters from Table 5.1 (Section 5.1.2)
+# ============================================================================
 
+# Experiment metadata
+experiment:
+  name: "ppo_gnn_fuel_delivery"
+  description: "PPO-GNN with three-tier constraint validation"
+  seed: 42
+  device: "cuda"  # Options: "cuda", "cpu", "cuda:0"
+  num_workers: 4
+
+# ----------------------------------------------------------------------------
+# PPO Policy Network (Actor)
+# ----------------------------------------------------------------------------
+policy:
+  learning_rate: 3.0e-4  # α_θ from Table 5.1
+  epsilon_clip: 0.2      # Clipping parameter (Eq. 8)
+  entropy_coef: 0.01     # β for exploration (Algorithm 1, line 40)
+  architecture: [256, 128, 64]  # Hidden layer dimensions
+  activation: "relu"
+  output_activation: "softmax"  # For action probabilities
+  dropout: 0.0
+  weight_init: "xavier_uniform"
+
+# ----------------------------------------------------------------------------
+# Value Function (Critic)
+# ----------------------------------------------------------------------------
+value:
+  learning_rate: 1.0e-3  # α_φ from Table 5.1
+  gae_lambda: 0.95       # λ for GAE (Eq. 9)
+  architecture: [256, 128]
+  activation: "relu"
+  dropout: 0.0
+  weight_init: "xavier_uniform"
+
+# ----------------------------------------------------------------------------
+# GNN Encoder
+# ----------------------------------------------------------------------------
+gnn:
+  learning_rate: 1.0e-4  # α_ψ from Table 5.1
+  num_layers: 3          # L from Section 4.1
+  hidden_dim: 128        # Hidden dimension from Table 5.1
+  aggregation: "mean"    # Options: "mean", "sum", "max"
+  activation: "relu"
+  dropout: 0.0
+  normalize: true        # Layer normalization
+  residual: false        # Residual connections
+  update_frequency: 1000 # Update GNN every N episodes (Algorithm 1, line 50)
+
+# ----------------------------------------------------------------------------
+# Training Process
+# ----------------------------------------------------------------------------
+training:
+  discount_factor: 0.99         # γ from Table 5.1
+  batch_size: 256               # B from Table 5.1
+  epochs_per_update: 10         # K from Table 5.1
+  max_episodes: 50000           # Maximum training episodes
+  episode_length: 200           # Max steps per episode
+  early_stop_patience: 5000     # Convergence threshold (consecutive episodes)
+  gradient_clip: 0.5            # Gradient clipping
+  lr_scheduler: "constant"      # Options: "constant", "cosine", "step"
+  warmup_episodes: 1000         # Learning rate warmup
+
+# ----------------------------------------------------------------------------
+# Reward Function Weights (Eq. 2, Section 4.2.2)
+# ----------------------------------------------------------------------------
+rewards:
+  lambda_cost: 1.0         # λ₁ - Total operational costs
+  lambda_dispersion: 0.5   # λ₂ - Vehicle dispersion
+  lambda_delay: 0.8        # λ₃ - Delivery delays
+  lambda_unmet: 1.2        # λ₄ - Unmet demand
+  lambda_constraint: 2.0   # λ₅ - Constraint violations
+
+# ----------------------------------------------------------------------------
+# Three-Tier Constraint Validation (Section 4.3, Algorithm 2)
+# ----------------------------------------------------------------------------
+validation:
+  enabled: true
+  validation_frequency: 1000    # Every N episodes (Table 5.1)
+  validation_batch_size: 100    # Number of instances per validation epoch
+  
+  # Tier thresholds
+  tier1_threshold: 0.05   # 5% - Tolerance zone
+  tier2_threshold: 0.25   # 25% - Fine-tuning zone
+  
+  # Tier 2: Fine-tuning parameters
+  tier2_penalty_multiplier: 1.5      # λ_c ← 1.5 × λ_c
+  tier2_episodes: 1000               # Fine-tune for 1,000 episodes
+  tier2_selective: true              # Only increase violated constraint penalties
+  
+  # Tier 3: Re-training parameters
+  tier3_penalty_multiplier: 10.0     # λ_c ← 10 × λ_c
+  tier3_episodes: 10000              # Re-train for 10,000 episodes
+  tier3_reset_policy: true           # Reset policy network θ
+  tier3_preserve_gnn: true           # Keep GNN encoder ψ
+  tier3_augment_replay: true         # Add feasible solutions to buffer
+  
+  # Quality degradation detection
+  quality_threshold: 0.05            # 5% gap increase triggers alert
+  quality_patience: 5                # Consecutive epochs before restore
+  
+  # Variance detection
+  variance_threshold: 0.15           # High variance alert
+  variance_action: "reduce_lr"       # Options: "reduce_lr", "restore_checkpoint"
+  variance_lr_multiplier: 0.5        # New LR = 0.5 × current LR
+
+# ----------------------------------------------------------------------------
+# Constraint Importance Weights (for violation analysis)
+# ----------------------------------------------------------------------------
+constraints:
+  capacity: 2.0      # Vehicle capacity violations
+  time_window: 1.5   # Time window violations
+  demand: 1.8        # Demand satisfaction violations
+  sequencing: 1.0    # Route sequencing violations
+  station_limit: 1.2 # Station vehicle limit violations
+
+# ----------------------------------------------------------------------------
+# Logging & Checkpointing
+# ----------------------------------------------------------------------------
+logging:
+  log_dir: "runs/"
+  tensorboard: true
+  wandb: false  # Set to true if using Weights & Biases
+  wandb_project: "ppo-gnn-fuel-delivery"
+  log_frequency: 100  # Log every N episodes
+  
+  # What to log
+  log_rewards: true
+  log_losses: true
+  log_violations: true
+  log_optimality_gap: true  # If Gurobi comparison available
+  log_tier_activations: true
+
+checkpointing:
+  checkpoint_dir: "checkpoints/"
+  save_best: true              # Save best validation checkpoint
+  save_latest: true            # Save latest checkpoint
+  save_frequency: 5000         # Save every N episodes
+  keep_last_n: 3               # Keep only last N checkpoints
+  metric: "validation_cost"    # Metric for "best" checkpoint
+
+# ----------------------------------------------------------------------------
+# Environment Configuration
+# ----------------------------------------------------------------------------
+environment:
+  network_size: 100            # Number of nodes (stations)
+  num_edges: 300               # Number of edges (roads)
+  num_vehicles: 15             # Fleet size
+  depot_location: [0.0, 0.0]   # Depot coordinates
+  
+  # Stochastic demand parameters
+  demand_mean_range: [100, 500]    # μ_i range
+  demand_std_ratio: 0.2            # σ_i = 0.2 × μ_i
+  confidence_level: 0.95           # 1 - α for chance constraints
+  
+  # Vehicle parameters
+  vehicle_capacity: 1000           # Q_k
+  vehicle_speed_loaded: 60.0       # km/h when loaded
+  vehicle_speed_unloaded: 80.0     # km/h when unloaded
+  loading_time_per_unit: 0.1       # minutes per liter
+  unloading_time_per_unit: 0.15    # α_k (minutes per liter)
+  
+  # Time windows
+  time_window_width: 120           # minutes
+  max_route_duration: 480          # minutes (8 hours)
+  
+  # Cost parameters
+  fuel_cost_per_km: 0.5            # $/km
+  driver_cost_per_hour: 25.0       # $/hour
+  vehicle_fixed_cost: 50.0         # $ per deployment
+  penalty_unmet_demand: 10.0       # $ per unit unmet
+  penalty_violation: 100.0         # $ per violation
+
+# ============================================================================
