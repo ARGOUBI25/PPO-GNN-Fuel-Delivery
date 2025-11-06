@@ -8,7 +8,7 @@ Creates demands with:
 - Temporal patterns (optional)
 - Demand scenarios
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
