@@ -2,7 +2,7 @@
 Value Network (Critic)
 Neural network for state value estimation V_φ(s).
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
