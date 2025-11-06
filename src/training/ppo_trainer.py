@@ -5,7 +5,7 @@ Main PPO training coordinator.
 Orchestrates training loop including rollout collection, PPO updates,
 constraint validation, and checkpointing.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
