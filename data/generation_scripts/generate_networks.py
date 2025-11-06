@@ -4,7 +4,7 @@ Generate synthetic hydrogen delivery networks with varying complexity.
 
 Creates networks of sizes: 10, 50, 100, 200 nodes.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
