@@ -4,7 +4,7 @@ Utilities for checking individual constraints.
 
 Provides granular constraint checking functions used by DeterministicModel.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
