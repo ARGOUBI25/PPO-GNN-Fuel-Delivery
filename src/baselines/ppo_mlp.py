@@ -5,7 +5,7 @@ PPO with MLP encoder (no message-passing).
 Section 5.2: Ablation study - processes nodes independently through MLP,
 then aggregates via mean pooling. No message-passing aggregation.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
