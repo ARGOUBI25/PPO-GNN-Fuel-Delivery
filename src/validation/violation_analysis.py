@@ -4,7 +4,7 @@ Compute total violation score V_total for three-tier validation.
 
 Section 4.3, Equation 11: V_total computation.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
