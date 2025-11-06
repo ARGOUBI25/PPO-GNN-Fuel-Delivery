@@ -8,7 +8,7 @@ Tunes:
 - Entropy coefficient (β)
 - GAE lambda (λ)
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
