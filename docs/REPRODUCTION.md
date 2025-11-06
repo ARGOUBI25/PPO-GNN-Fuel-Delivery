@@ -602,7 +602,7 @@ If you encounter issues during reproduction:
 
 ## 📚 Additional Resources
 
-- **Paper:** [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX)
+- **Paper:** 
 - **Supplementary Materials:** `supplementary/`
 - **API Documentation:** [API.md](API.md)
 - **FAQ:** [FAQ.md](FAQ.md)
