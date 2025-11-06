@@ -4,7 +4,7 @@ Load and validate YAML configuration files.
 
 Ensures configuration consistency and provides default values.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
