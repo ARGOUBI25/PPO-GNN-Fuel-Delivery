@@ -890,7 +890,7 @@ class Logger:
 
 ## 📚 Additional Resources
 
-- **Paper:** [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX)
+- **Paper:** 
 - **Installation Guide:** [INSTALLATION.md](INSTALLATION.md)
 - **Reproduction Guide:** [REPRODUCTION.md](REPRODUCTION.md)
 - **FAQ:** [FAQ.md](FAQ.md)
