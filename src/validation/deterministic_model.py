@@ -5,7 +5,7 @@ Serves as dynamic feasibility oracle for three-tier validation.
 Section 3.2: Deterministic equivalent model.
 Section 4.3: Three-tier closed-loop constraint validation.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
