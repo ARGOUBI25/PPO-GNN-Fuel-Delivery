@@ -4,7 +4,7 @@ Graduated penalty adjustment based on violation severity.
 
 Section 4.3, Algorithm 2: Three-tier constraint validation mechanism.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
