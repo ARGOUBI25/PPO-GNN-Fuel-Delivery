@@ -2,7 +2,7 @@
 Policy Network (Actor)
 Neural network for action selection π_θ(a|s).
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
