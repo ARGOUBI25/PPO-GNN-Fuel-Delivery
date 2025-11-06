@@ -4,7 +4,7 @@ Implements Algorithm 1 from Section 4.2.3.
 
 Includes GNN encoder training, PPO updates, and validation.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
