@@ -9,7 +9,7 @@ Methods:
 - Clarke-Wright
 - Gurobi (exact solver)
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
