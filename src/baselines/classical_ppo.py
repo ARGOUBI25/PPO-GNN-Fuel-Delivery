@@ -5,7 +5,7 @@ PPO with flat feature encoding (512-dimensional vector).
 Section 5.1.3: Classical DRL baseline for comparison.
 Same PPO algorithm and hyperparameters as PPO-GNN for fair comparison.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
