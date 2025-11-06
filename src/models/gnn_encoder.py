@@ -2,7 +2,7 @@
 GNN Encoder
 3-layer Graph Neural Network with message-passing (Equation 1, Section 4.1).
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
