@@ -4,7 +4,7 @@ TensorBoard and file logging utilities.
 
 Provides comprehensive logging for training, validation, and evaluation.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
