@@ -4,7 +4,7 @@ Monitors training progress and stops when convergence detected.
 
 Prevents overfitting and saves computation time.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
