@@ -9,7 +9,7 @@ Creates:
 - Fuel capacities
 - Cost parameters
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
