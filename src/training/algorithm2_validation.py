@@ -4,7 +4,7 @@ Implements Algorithm 2 from Section 4.3.
 
 Validates solutions and adjusts penalties based on violation severity.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
