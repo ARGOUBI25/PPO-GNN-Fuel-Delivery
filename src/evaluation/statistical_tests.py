@@ -5,7 +5,7 @@ Statistical significance testing for comparing methods.
 Section 5.4: Statistical tests including Wilcoxon signed-rank,
 Mann-Whitney U, and paired t-tests.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
