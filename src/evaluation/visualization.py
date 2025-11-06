@@ -4,7 +4,7 @@ Plotting utilities for results and analysis.
 
 Creates publication-quality figures for the paper.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
