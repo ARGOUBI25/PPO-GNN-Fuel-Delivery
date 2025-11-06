@@ -4,7 +4,7 @@ Data processing and loading utilities.
 
 Handles dataset loading, preprocessing, and augmentation.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
