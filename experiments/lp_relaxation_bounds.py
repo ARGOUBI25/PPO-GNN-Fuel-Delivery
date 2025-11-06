@@ -4,7 +4,7 @@ Compute LP relaxation lower bounds for large instances (Section 5.4).
 
 Used when exact solution is computationally infeasible.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
