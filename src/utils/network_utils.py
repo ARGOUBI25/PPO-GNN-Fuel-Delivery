@@ -4,7 +4,7 @@ Graph/network construction and manipulation utilities.
 
 Handles graph creation, edge computation, and network analysis.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
