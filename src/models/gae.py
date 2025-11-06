@@ -2,7 +2,7 @@
 Generalized Advantage Estimation (GAE)
 Compute advantages for PPO using TD(λ) with variance reduction.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
