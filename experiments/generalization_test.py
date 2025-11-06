@@ -6,7 +6,7 @@ Evaluates:
 - Training on size N, testing on sizes [N/2, N, 2N]
 - Cross-size generalization capability
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
