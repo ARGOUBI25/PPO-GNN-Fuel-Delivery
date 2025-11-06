@@ -7,7 +7,7 @@ Tests:
 2. PPO-MLP (no message-passing)
 3. Classical PPO (flat features)
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
