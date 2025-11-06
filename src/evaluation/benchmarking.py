@@ -4,7 +4,7 @@ Comprehensive benchmarking framework for comparing methods.
 
 Section 5.4: Detailed comparison with baselines and exact solver.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
