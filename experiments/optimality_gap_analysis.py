@@ -6,7 +6,7 @@ Compares solutions against:
 - Exact solver (Gurobi) for small instances
 - LP relaxation lower bounds for large instances
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
