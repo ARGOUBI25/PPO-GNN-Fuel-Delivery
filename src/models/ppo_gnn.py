@@ -2,7 +2,7 @@
 PPO-GNN Framework
 Complete implementation integrating GNN encoder, policy network, and value network.
 
-Author: Your Name
+Author: Majdi Argoubi
 Date: 2025
 """
 
